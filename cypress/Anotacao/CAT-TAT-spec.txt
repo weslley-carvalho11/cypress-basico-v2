@@ -1,0 +1,86 @@
+/// <reference types="Cypress" />
+
+
+
+describe('Central de Atendimento ao Cliente TAT', function () { 
+    beforeEach(function () {
+        cy.visit('./src/index.html')
+    })
+
+    it('verifica o título da aplicação', function () {
+        cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
+    })
+
+    it('preenche os campos obrigatórios e envia o formulário', function () {
+        const longText = 't is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose injected humour and the like.';
+
+        cy.get('[id="firstName"]').type("Weslley")
+        cy.get('[id="lastName"]').type("Santos")
+        cy.get('[id="email"]').type("weslleycarvalho344@gmail.com")
+        cy.get('[id="open-text-area"]').type(longText, { delay: 0 })
+        cy.contains('button', 'Enviar').click()
+
+        cy.get('.success').should('be.visible')
+    })
+
+    it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function () {
+        cy.get('#firstName').type('Weslley')
+        cy.get('#lastName').type('Santos')
+        cy.get('#email').type('weslley@gmail')
+        cy.get('#open-text-area').type('Teste')
+        cy.contains('button', 'Enviar').click()
+
+        cy.get('.error').should('be.visible')
+    })
+
+    it('Validar se campo de telefone continua vazio apos a tentativa de insercao de caracteres nao-numerico', function () {
+        cy.get('#phone').type('aaa').should('have.text', '')
+    })
+
+    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function () {
+        cy.get('#firstName').type('Weslley')
+        cy.get('#lastName').type('Santos')
+        cy.get('#email').type('weslley@gmail.com')
+        cy.get('#phone-checkbox').click()
+        cy.get('#open-text-area').type('Teste')
+        cy.contains('button', 'Enviar').click()
+
+        cy.get('.error').should('be.visible')
+    })
+
+    it('reenche e limpa os campos nome, sobrenome, email e telefone', function(){
+        cy.get('#firstName')
+        .type('Weslley')
+        .should('have.value', 'Weslley')
+        .clear()
+        .should('have.value', '')
+
+        cy.get('#lastName')
+        .type('Santos')
+        .should('have.value', 'Santos')
+        .clear()
+        .should('have.value', '')
+
+        cy.get('#email')
+        .type('weslley@gmail.com')
+        .should('have.value', 'weslley@gmail.com')
+        .clear()
+        .should('have.value', '')
+
+        cy.get('#phone')
+        .type('11986998299')
+        .should('have.value', '11986998299')
+        .clear()
+        .should('have.value', '')
+    })
+
+    it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function(){
+        cy.contains('button', 'Enviar').click()
+        cy.get('.error').should('be.visible')
+    })
+
+    it('envia o formuário com sucesso usando um comando customizado', function(){
+        cy.fillMandatoryFieldsAndSubmit()
+        cy.get('.success').should('be.visible')
+    })
+})

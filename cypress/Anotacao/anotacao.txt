@@ -1,0 +1,113 @@
+- ls la 
+Listar os arquivos no cmd
+
+Abrir o cypress
+npx cypress open
+
+
+Indentar linhas:
+shift + alt + f
+
+Comentar Codigo: 
+ctrl + ;
+
+// <reference types="Cypress" /> 
+-> Ele serve para habilitar o intelisense que dá orientações de como usar o comando. 
+
+
+//beforeEach
+-> Serve para executar ações antes de cada suite de teste.
+-> Deve ficar dentro da Suite de Testes.
+
+
+Describe('Nome da suite de teste', funciotion(){
+
+})
+-> Estrutura do describe é equivalente a uma suite de Testes.
+-> Primeiro eu escrevo o nome da suite de testes, depois crio uma função de callback (é um função passada para outra função como argumento)
+-> Todos os testes ficam dentro dele
+
+it('nome do teste', function() {
+
+})
+-> Cada "it" é um teste diferente.
+-> Ao adicionar .only ele executa apenas esse teste
+-> Toda execução é feita dentro dele.
+
+
+cy. 
+Mostra os métodos e própriedade do Cypress
+cy.get() 
+-> Identifica um elemento na tela
+-> A busca tem que ser por CSS Selector
+-> #nomeId nos buscamos pelo nome do Id 
+-> .class nos buscamos pela classe
+-> '[id="firstName"]' entre aspas simples adicinamos o atributo que pode ser id, class e name por exemplo.
+-> 'button[type="submit"]' entre aspas simples adicionamos a tag e algum atributo que possa deixa-lo exclusivo.
+
+
+-> cy.get('[id="open-text-area"]').type('texto ou variável com texto', {delay:0})
+O daley padão e de 10 segundos. 
+Quando colocammos o daley para zero ele fica mais rápido
+
+
+
+/// <reference types="Cypress" />
+-> Adicionamos isso no início do arquivo para ativar o intelisense, ele serve para mostrar as dicas do cypress;
+
+descrebe('Nome da suite de testes', function (){
+    //Aqui dentro colocamos os testes         
+})
+-> Aqui é a estrutura da suite de testes dentro do Cypress;
+-> Ela irá receber um nome entre parenteses simples e function() {};
+-> Essa function nós chamamos de função de callback;
+-> A função de callback é uma uma função passada dentro de outra função como argumento;
+
+
+beforeEach(function () {
+    cy.visit('')
+})
+-> beforeEach() recebe um função de callback;
+-> beforeEach traduzindo "Antes de Cada", então ele executa tudo que está dentro dele antes de cada testes;
+-> cy.visit('') ele pode receber URL ou a localização da pasta entre aspas simples;
+-> cy.visit('') ele serve para visitar um site;
+
+
+it('Nome do teste', function () {
+    cy.title().should('be.equal', 'Texto no qual vc quer comparar')
+})
+-> it() traduzindo recebe um nome e uma função de callback;
+-> it() traduzindo "Isto", cada "it" representa um teste e tudo que está dentro dele deverá ser executado;
+-> it.only() quando adicionamos o "only" após o "it" apenas esse teste será executado, 
+isso serve para não ter que ficar rodando todos os testes quando estamos validando o novo 
+teste validado. 
+cy.title() ele pega o título da página (É o nome que aparece na aba);
+.should tradução para "deve", fará uma validação, esse pode variar de acordo com que digitamos;
+.should('be.equal', 'Texto no qual vc quer comparar') o texto coletado deve ser igual ao texto digitado entre aspas simples;
+
+
+it('preenche os campos obrigatórios e envia o formulário', function () {
+        const longText = 't is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose injected humour and the like.';
+
+        cy.get('[id="firstName"]').type("Weslley")
+        cy.get('[id="lastName"]').type("Santos")
+        cy.get('[id="email"]').type("weslleycarvalho344@gmail.com")
+        cy.get('[id="open-text-area"]').type(longText, { delay: 0 })
+        cy.contains('button', 'Enviar').click()
+
+        cy.get('.success').should('be.visible')
+ })
+-> const longText criamos esse constante para receber o texto que iriamos usar para preencher o campo de área.
+-> cy.get() ele é o comando mais usado do cypress;
+-> cy.get() ele serve para identificar o elemento web. 
+-> cy.get() usamos o CSS Selector para identificar os elementos;
+-> cy.get() dentro do "get()" entre aspas simples usamos o "#" + nome do id do elemento. 
+Exemplo: #nome, #email, #senha;
+-> cy.get() dentro do "get()" entre aspas simples usamos o "." + nome da classe do elemento. 
+Exemplo: class="nome", class="email", class="senha";
+-> cy.get() dentro do "get()" entre aspas simples usamos a seguinte estrutura: 
+'[id="firstName"]', '[class="firstName"]', '[nome="firstName"]'.
+
+
+
+
