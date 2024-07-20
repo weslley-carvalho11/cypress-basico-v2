@@ -111,3 +111,76 @@ Exemplo: class="nome", class="email", class="senha";
 
 
 
+    it('marca cada tipo de atendimento', function () {
+        cy.get('input[type="radio"]')
+            .should('have.length', 3).each(function ($radio) {
+                cy.wrap($radio).check()
+                cy.wrap($radio).should('be.checked')
+            })
+        // No cypress podemos pegar todos os valores dentro de campo. 
+        // should é usado para conferir se o tamanho da lista é o mesmo que a listada
+        // each faz uma iteração ele é equivalente ao "for" do Java. 
+        // O "each" deve receber como argumento a função de callback
+        // A função de callback deve receber um argumento 
+        // .wrap empata o valor para podermos manipula-los
+    })
+
+        it('seleciona um arquivo da pasta fixtures', function () {
+        cy.get('input[type="file"]#file-upload')
+            .should('not.have.value')
+            .selectFile('./cypress/fixtures/example.json')
+            .should(function (input) {
+                console.log(input)
+                expect(input[0].files[0].name).to.equal('example.json')
+            })
+        //Existem outras técnicas de seletor de css para deixar a seleção do elemento mais precisa
+        //should pode receber uma função de callback
+        //Podemos o console.log paa=ra conseguir saber o que o objeto devolve
+        //Nesse caso nos conseguimos abrir um jquery para identificar o nome do arquivo
+    })
+
+        it('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', function () {
+        cy.get('#privacy a')
+            .should('have.attr', 'target', '_blank')
+    })
+
+    it('acessa a página da política de privacidade removendo o target e então clicando no link', function () {
+        cy.get('#privacy a')
+            .invoke('removeAttr', 'target')
+            .click()
+
+        cy.contains('Talking About Testing').should('be.visible')
+        //Usamos o "involke" para poder remover a propriedade "target" que contém o valor _black, quando clicado abre o link em outra aba, removendo-o abrimos na mesma aba, e apartir disso continuar testando a outra tela 
+    })
+
+
+    // Desse jeito conseguimos passar o valor no teste dentro do arquivo executavel
+// Cypress.Commands.add('fillMandatoryFieldsAndSubmit', function(nome, sobrenome, email, textArea) {
+//     cy.get('#firstName').type(nome)
+//     cy.get('#lastName').type(sobrenome)
+//     cy.get('#email').type(email)
+//     cy.get('#open-text-area').type(textArea)
+//     cy.get('button[type="submit"]').click()
+// })
+
+
+
+// Passando um Objeto, mas devemos ter um objeto criado dentro do executável 
+// const user = {} criamos um objeto
+
+// beforeEach(function () {
+//     cy.visit('./src/index.html')
+
+//     user.nome = 'Sandro' passamos o valor do objeto
+//     user.sobreNome ='Silva'
+//     user.email = 'sandroS@gmail.com'
+//     user.textArea = 'Texto generico'
+// })
+
+// Cypress.Commands.add('fillMandatoryFieldsAndSubmit', (user) => {
+//     cy.get('#firstName').type(user.nome)
+//     cy.get('#lastName').type(user.sobreNome)
+//     cy.get('#email').type(user.email)
+//     cy.get('#open-text-area').type(user.textArea)
+//     cy.get('button[type="submit"]').click()
+// })
