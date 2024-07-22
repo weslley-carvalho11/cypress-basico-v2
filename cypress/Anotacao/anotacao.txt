@@ -1,56 +1,125 @@
-- ls la 
-Listar os arquivos no cmd
+------------------------------------------------------
+--------------Comandos de CMD-------------------------
+------------------------------------------------------
+dir
+-> Lista os arquivos da pasta
 
-Abrir o cypress
+cls 
+-> Limpa o prompt o conteúdo o prompt de comando
+
 npx cypress open
+-> Abre a ferramenta do cypress
+
+npx cypress run
+-> Executa os testes do cypress no modo headlass (Nós não conseguimos ver a execução do testes, mas ele gera prints e vídeo do que aconteceu)
 
 
-Indentar linhas:
+------------------------------------------------------
+-----------Comandos Visual Studio Code----------------
+-------------------------------------------------------
 shift + alt + f
+-> Identar o código 
 
-Comentar Codigo: 
 ctrl + ;
+-> Comentar o código
+
+ ------------------------------------------------------
+---------------------Anotações-------------------------
+-------------------------------------------------------
+
 
 // <reference types="Cypress" /> 
--> Ele serve para habilitar o intelisense que dá orientações de como usar o comando. 
+-> Ao adicionar o texto acima no código do cypress, ele habilita o intelicense do Cypress
+-> Ele exibe orientações de como usar as funções do cypress
 
-
-//beforeEach
+beforeEach
 -> Serve para executar ações antes de cada suite de teste.
--> Deve ficar dentro da Suite de Testes.
+-> 
+
+cy.visit('https://site.com')
+-> Ele recebe como parâmetro o link do site que será testado
+-> Ele recebe como parâmetro o caminho da pasta do arquivo que será testado
+-> Normalmente adicionamos ele dentro do beforeEach(), pois, assim a cada teste ele entra em um endereço
+especifico 
 
 
 Describe('Nome da suite de teste', funciotion(){
-
+    //Aqui adicionamos os testes
 })
 -> Estrutura do describe é equivalente a uma suite de Testes.
--> Primeiro eu escrevo o nome da suite de testes, depois crio uma função de callback (é um função passada para outra função como argumento)
+-> Como primeiro parâmetro ele recebe o nome da suite de testes
+-> Como segundo argumento ele recebe uma função de callback
+-> O que é uma função de callback? (É uma função que recebe como argumento uma outra função)
 -> Todos os testes ficam dentro dele
 
 it('nome do teste', function() {
-
+    //Aqui adicionamos o script do teste
 })
--> Cada "it" é um teste diferente.
--> Ao adicionar .only ele executa apenas esse teste
--> Toda execução é feita dentro dele.
-
+-> Cada "it" é um teste diferente
+-> Ao adicionar ".only" ele executa apenas esse teste
+-> Assim como o describe, ele recebe como argumento o nome do teste e uma função de callback
 
 cy. 
-Mostra os métodos e própriedade do Cypress
+Mostra os comandos do cypress
+
 cy.get() 
--> Identifica um elemento na tela
--> A busca tem que ser por CSS Selector
--> #nomeId nos buscamos pelo nome do Id 
--> .class nos buscamos pela classe
--> '[id="firstName"]' entre aspas simples adicinamos o atributo que pode ser id, class e name por exemplo.
--> 'button[type="submit"]' entre aspas simples adicionamos a tag e algum atributo que possa deixa-lo exclusivo.
+-> Identifica um elemento html na tela
+-> A busca tem que ser através do CSS Selector
+-> Conseguimos encadear outros comando através dele
+
+CSS Selector
+-> #nomeId "#" + o nome do id faz com o cypress busque pelo elemento sem a necessidade de colocar o atributo
+-> .nomeClass "." o nome da class que você busca .error, .sucess, .button
+-> '[id="firstName"]' entre aspas simples adicinamos o atributo que pode ser id, class e name + nome dele
+-> 'button[type="submit"]' entre aspas simples adicionamos a tag e algum atributo que possa deixa-lo exclusivo
+-> 'input[type="radio"][value="feedback"]' podemos adicionar mais de um atributo
+-> '#privacy a' adicionamos o id + tag
 
 
--> cy.get('[id="open-text-area"]').type('texto ou variável com texto', {delay:0})
-O daley padão e de 10 segundos. 
-Quando colocammos o daley para zero ele fica mais rápido
+.should()
+-> "Deve" é usado para fazer uma validação do teste (Assert)
+-> Primeiro adicionamos a validação, depois o valor
+-> .should('be.qual', 'valor') Verifica se o valor coletado seja igual ao valor passado como argumento
+-> .should('have.text', 'texto') Verifique se tem o texto
+-> .should('be.visible') Verifica se o elemento está visivél 
+-> .should('have.value', 'valor') Verifica se campo possui um determinado valor
 
 
+-> Exemplo: cy.get('.success').should('be.visible')
+            cy.get('.success').should('not.be.visible')
+
+
+.type('Texto genérico')
+-> Digita as informações no campo
+-> O daley padão e de 10 segundos. 
+-> O daley pode ser auterado adicionando um atributo de daley
+-> Exemplo: cy.get('[id="idDoCampo"]').type('Texto genérico')
+            cy.get('[id="idDoCampo"]').type('Texto genérico', {delay:0})
+
+.click()
+-> Clica no elemento, pode ser um botão, radio-button, checkbox etc 
+-> Exemplo: cy.contains('button', 'Enviar').click()
+
+cy.contains()
+-> Ele confere se há um determido elemento na página
+-> Recebe como argumento a tag e o value dessa tag
+-> Exemplo: cy.contains('button', 'Enviar').click()
+
+cy.title()
+-> Ele o título da página
+
+cy.clock()
+-> Pausa o relogio do navegador 
+-> Podemos definir uma data, intervalo de tempo
+-> Recebe como argumento data
+
+cy.tick()
+-> Podemos avançar no tempo ao invés de esperar uma ação acontecer por completo
+-> Recebe como argumento variaveis e 
+
+
+
+cy.
 
 /// <reference types="Cypress" />
 -> Adicionamos isso no início do arquivo para ativar o intelisense, ele serve para mostrar as dicas do cypress;
